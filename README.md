@@ -3,7 +3,15 @@
 
 Check the demo and docs: http://dbParser.com/
 
-I wanted a all in one package to handle different SQL based database engines. Currently for MVC.NET && .NET Core
+I wanted an all in one package to handle different SQL based database engines.
+
+Based on CRUD persistent storage.
+
+- - - -
+
+* MSSQL
+* SQLITE
+* ORACLE
 
 ### Basic Usage
 
@@ -16,3 +24,9 @@ Head over to the [docs](http://dbParser.com/) for more information.
     IDBParser dB = DbUtils.GetDBType();
     
     DataTable dt = dB.Read("select * from accountusers");
+    
+    //Caching via 
+    DataTable dt DbUtils.ReadCache("select * from accountusers");
+    
+    //Full Database Extended Properties
+    string value = DbUtils.ReadExtendedPropCache("database_settings", true);
