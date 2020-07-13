@@ -30,3 +30,6 @@ Head over to the [docs](http://dbParser.com/) for more information.
     
     //Full Database Extended Properties
     string value = DbUtils.ReadExtendedPropCache("database_settings", true);
+    
+    //Can use this to write any query to db
+    dB.Read("");
