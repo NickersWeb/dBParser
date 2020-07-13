@@ -7,7 +7,8 @@ namespace dBParser
 {
     public static class DbUtils
     {
-        public static IDBParser GetDBType() {
+        public static IDBParser GetDBType()
+        {
             ConfigManager.ConfigHelper config = new ConfigManager.ConfigHelper();
             switch (config.DataBaseType())
             {
@@ -15,10 +16,14 @@ namespace dBParser
                     return new MSSQLParser();
                 case "sqlite":
                     return new SQLiteParser();
+                case "oracle":
+                    return new OracleParser();
+                case "mysql":
+                    return new MySQLParser();
                 default:
                     return new MSSQLParser();
             }
-          
+
         }
         public static void DeleteCache(string Name)
         {
@@ -71,13 +76,13 @@ namespace dBParser
         {
             IDBParser dB = GetDBType();
             DataTable dt = (DataTable)MemoryCache.Default[TableName];
-            
+
             if (dt == null)
             {
                 dt = dB.Read(Query);
                 MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(15));
             }
-            
+
             return dt;
         }
 
