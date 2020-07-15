@@ -22,6 +22,14 @@ Head over to the [docs](http://dbParser.com/) for more information.
 
     //Create a new appsettings.json
     //Fill connectionstring...
+    {
+     "ConfigManager": {
+      "ConnectionStrings": {
+       "DefaultConnection": "Data Source=.\\SQLEXPRESS;Initial Catalog=DB_HERE;User ID=USERID_HERE;Password=USER_PWD;",
+       "DataBaseType": "sql"
+      }
+     }
+    }
     
     //Construct new databaseparser...
     IDBParser dB = DbUtils.GetDBType();
