@@ -7,6 +7,10 @@ namespace dBParser
 {
     public static class DbUtils
     {
+        /// <summary>
+        /// Used to intialise the db type
+        /// </summary>
+        /// <returns></returns>
         public static IDBParser GetDBType()
         {
             ConfigManager.ConfigHelper config = new ConfigManager.ConfigHelper();
@@ -25,17 +29,38 @@ namespace dBParser
             }
 
         }
+        /// <summary>
+        /// Delete Cache via unique name
+        /// </summary>
+        /// <param name="Name"></param>
         public static void DeleteCache(string Name)
         {
             MemoryCache.Default.Remove(Name);
         }
-        public static void UpdateExtendPropCache(string Name, string Value, string TableName = "", string ColumnName = "")
+        /// <summary>
+        /// Update Extend PropCache
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Value"></param>
+        /// <param name="TableName"></param>
+        /// <param name="ColumnName"></param>
+        /// <param name="Minutes">How long data should be cached for</param>
+        public static void UpdateExtendPropCache(string Name, string Value, string TableName = "", string ColumnName = "", double Minutes = 15)
         {
             string AdvName = $"{Name}{TableName}{ColumnName}";
             DeleteCache(AdvName);
-            MemoryCache.Default.Add(AdvName, Value, DateTime.Now.AddMinutes(15));
+            MemoryCache.Default.Add(AdvName, Value, DateTime.Now.AddMinutes(Minutes));
         }
-        public static string ReadExtendedPropCache(string Name, bool Database = false, string TableName = "", string ColumnName = "")
+        /// <summary>
+        ///  Read Extended Prop cache, found via method parameters
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Database"></param>
+        /// <param name="TableName"></param>
+        /// <param name="ColumnName"></param>
+        /// <param name="Minutes">How long data should be cached for</param>
+        /// <returns></returns>
+        public static string ReadExtendedPropCache(string Name, bool Database = false, string TableName = "", string ColumnName = "", double Minutes = 15)
         {
             IDBParser dB = GetDBType();
             string AdvName = $"{Name}{TableName}{ColumnName}";
@@ -44,24 +69,40 @@ namespace dBParser
             if (string.IsNullOrEmpty(value))
             {
                 value = dB.ReadExtendProperty(Name, Database, TableName, ColumnName);
-                MemoryCache.Default.Add(AdvName, value, DateTime.Now.AddMinutes(15));
+                MemoryCache.Default.Add(AdvName, value, DateTime.Now.AddMinutes(Minutes));
             }
             return value;
         }
+        /// <summary>
+        /// Delete Extended Prop Cache, via unique name
+        /// </summary>
+        /// <param name="PropName"></param>
         public static void DeleteExtendedPropCache(string PropName)
         {
             MemoryCache.Default.Remove(PropName);
         }
-        public static void InsertCache(string TableName, DataRow dr)
+        /// <summary>
+        /// Insert data row to cache via tablename
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="dr"></param>
+        /// <param name="Minutes">How long data should be cached for</param>
+        public static void InsertCache(string TableName, DataRow dr, double Minutes = 15)
         {
             DataTable dt = (DataTable)MemoryCache.Default[TableName];
             if (dt != null)
             {
                 dt.Rows.Add(dr);
-                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(15));
+                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(Minutes));
             }
         }
-        public static void UpdateCache(string TableName, string Id, DataRow UpdateDr)
+        /// <summary>
+        /// Updata datarow in cached table via name and id
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="Id"></param>
+        /// <param name="UpdateDr"></param>
+        public static void UpdateCache(string TableName, string Id, DataRow UpdateDr, double Minutes = 15)
         {
             DataTable dt = (DataTable)MemoryCache.Default[TableName];
             if (dt != null)
@@ -69,10 +110,17 @@ namespace dBParser
                 DataRow dr = dt.Rows.Find(Id);
                 dr = UpdateDr;
                 dt.AcceptChanges();
-                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(15));
+                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(Minutes));
             }
         }
-        public static DataTable ReadCache(string TableName, string Query = "")
+        /// <summary>
+        /// Read from cached datatable
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="Query"></param>
+        /// <param name="Minutes">How long data should be cached for</param>
+        /// <returns></returns>
+        public static DataTable ReadCache(string TableName, string Query = "", double Minutes = 15)
         {
             IDBParser dB = GetDBType();
             DataTable dt = (DataTable)MemoryCache.Default[TableName];
@@ -80,7 +128,7 @@ namespace dBParser
             if (dt == null)
             {
                 dt = dB.Read(Query);
-                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(15));
+                MemoryCache.Default.Add(TableName, dt, DateTime.Now.AddMinutes(Minutes));
             }
 
             return dt;
@@ -91,7 +139,8 @@ namespace dBParser
         /// Remove All Identity Specification ID's.
         /// </summary>
         /// <param name="config"></param>
-        public static void AMXEditModeUpdateTable(EditModeConfig config)
+        [Obsolete("Idea to update table that is held in cache.")]
+        private static void AMXEditModeUpdateTable(EditModeConfig config)
         {
             DataTable dt = config.Data.Copy();
             dt.Columns.Remove("EditMode");
