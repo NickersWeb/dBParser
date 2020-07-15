@@ -11,9 +11,10 @@ Based on CRUD persistent storage.
 
 ### Supports:
 
-* MSSQL
-* SQLITE
-* ORACLE
+* sql
+* sqlite
+* oracle
+* mysql
 
 ### Basic Usage
 
