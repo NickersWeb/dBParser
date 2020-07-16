@@ -30,7 +30,7 @@ namespace dBParser.ConfigManager
             
             var builder = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile(@".\appsettings.json");
+                 .AddJsonFile(@"..\appsettings.json");
             Configuration = builder.Build();
             
         }
