@@ -108,6 +108,54 @@ namespace dBParser
             }
             return output;
         }
+        public Object InsertUpdate(string TableName, string WhereQuery, string OutputQuery = "")
+        {
+            Object output = new { };
+            //StringBuilder str = new StringBuilder();
+            //StringBuilder u = new StringBuilder();
+            //bool IsOutPutQuery = !string.IsNullOrEmpty(OutputQuery);
+            //if (ParameterList.Count > 1)
+            //{
+            //    for (int i = 0; i < ParameterList.Count - 1; i++)
+            //    {
+            //        u.Append($"{ParameterList[i].ParameterName} = {ParameterisedList[i]}");
+            //    }
+            //}
+            //u.Append($"{ParameterList[ParameterList.Count - 1].ParameterName} = {ParameterisedList[ParameterisedList.Count - 1]}");
+
+            //str.Append($"IF NOT EXISTS(SELECT @@IDENTITY FROM {TableName} WHERE {WhereQuery}) ");
+            //str.Append($"INSERT INTO [{TableName}] ");
+            //if (IsOutPutQuery)
+            //{
+            //    str.Append($"OUTPUT {OutputQuery} ");
+            //}
+            //str.Append($"VALUES ({string.Join("", ParameterisedList.ToArray())}) ");
+            //str.Append("ELSE ");
+            //str.Append($"UPDATE [{TableName}] SET ");
+            //str.Append($"{u} ");
+            //if (IsOutPutQuery)
+            //{
+            //    str.Append($"OUTPUT {OutputQuery} ");
+            //}
+            //str.Append($"FROM [{TableName}]");
+            //str.Append($" WHERE {WhereQuery} ");
+
+            //using (var connection = new SqlConnection(_connectionstring))
+            //{
+            //    connection.Open();
+            //    using (SqlDataAdapter sqlData = new SqlDataAdapter(str.ToString(), connection))
+            //    {
+            //        sqlData.SelectCommand.Parameters.AddRange(ParameterList.ToArray());
+            //        output = sqlData.SelectCommand.ExecuteScalar();
+            //        UnParameterList = new List<string>();
+            //        ParameterisedList = new List<string>();
+            //        ParameterList = new List<SqlParameter>();
+            //    }
+            //    connection.Close();
+            //}
+            return output;
+        }
+
         public void Create(string TableName)
         {
             string query = $"INSERT INTO {TableName} ({string.Join("", UnParameterList.ToArray())}) VALUES ({string.Join("", ParameterisedList.ToArray())})";

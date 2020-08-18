@@ -44,6 +44,12 @@ namespace dBParser
         /// <returns></returns>
         long AddNewReturnLong(string TableName, string OutputQuery = "");
         /// <summary>
+        /// Inserts where or update if exists on where. OutputQuery for inserted id.
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="WhereQuery"></param>
+        object InsertUpdate(string TableName, string WhereQuery, string OutputQuery = "");
+        /// <summary>
         /// Create insert with parameters.
         /// </summary>
         /// <param name="TableName"></param>

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace dBParser.ConfigManager
 {
@@ -27,10 +29,11 @@ namespace dBParser.ConfigManager
             return Configuration["ConfigManager:tokenId"].ToCharArray();
         }
         public ConfigHelper() {
-            
+            var pathRegex = new Regex(@"\\bin(\\x86|\\x64)?\\(Debug|Release)$", RegexOptions.Compiled);
+            var directory = pathRegex.Replace(Directory.GetCurrentDirectory(), String.Empty);
             var builder = new ConfigurationBuilder()
-                 .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile(@"..\appsettings.json");
+            .SetBasePath(directory)
+                 .AddJsonFile(@"appsettings.json");
             Configuration = builder.Build();
             
         }
