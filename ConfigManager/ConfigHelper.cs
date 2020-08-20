@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -28,12 +30,12 @@ namespace dBParser.ConfigManager
         {
             return Configuration["ConfigManager:tokenId"].ToCharArray();
         }
+
         public ConfigHelper() {
-            var pathRegex = new Regex(@"\\bin(\\x86|\\x64)?\\(Debug|Release)$", RegexOptions.Compiled);
-            var directory = pathRegex.Replace(Directory.GetCurrentDirectory(), String.Empty);
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(directory)
-                 .AddJsonFile(@"appsettings.json");
+            //pull from cache dbutils.readcache
+            string dir = $"{Path.GetFullPath(Path.Combine(System.AppContext.BaseDirectory, @"..\..\..\"))}";
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(dir).AddJsonFile("appsettings.json");
             Configuration = builder.Build();
             
         }

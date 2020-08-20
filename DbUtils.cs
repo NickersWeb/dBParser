@@ -1,7 +1,9 @@
 ﻿using Microsoft.SqlServer.Server;
 using System;
 using System.Data;
+using System.IO;
 using System.Runtime.Caching;
+using System.Text.RegularExpressions;
 
 namespace dBParser
 {
@@ -28,6 +30,15 @@ namespace dBParser
                     return new MSSQLParser();
             }
 
+        }
+        /// <summary>
+        /// test
+        /// </summary>
+        /// <returns></returns>
+        public static string ReturnDir()
+        {
+
+            return  $"{Path.GetFullPath(Path.Combine(System.AppContext.BaseDirectory, @"..\..\..\"))}appsettings.json";
         }
         /// <summary>
         /// Delete Cache via unique name
