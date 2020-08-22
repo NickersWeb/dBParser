@@ -20,16 +20,11 @@ Based on CRUD persistent storage.
 
 Head over to the [docs](http://dbParser.com/) for more information.
 
-    //Create a new appsettings.json
-    //Fill connectionstring...
-    {
-     "ConfigManager": {
-      "ConnectionStrings": {
-       "DefaultConnection": "Data Source=.\\SQLEXPRESS;Initial Catalog=DB_HERE;User ID=USERID_HERE;Password=USER_PWD;",
-       "DataBaseType": "sql"
-      }
-     }
-    }
+    //Init 
+    ConfigHelper config = new ConfigHelper("Data Source=.\\SQLEXPRESS;Initial Catalog=DB_HERE;User ID=USERID_HERE;Password=USER_PWD;", "sql");
+    
+    //Config is held in cache for up to a year... To clear. Just run
+    DbUtils.DeleteCache("dbParserConfig");
     
     //Construct new databaseparser...
     IDBParser dB = DbUtils.GetDBType();
