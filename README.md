@@ -39,3 +39,12 @@ Head over to the [docs](http://dbParser.com/) for more information.
     
     //Can use this to write any query to db
     dB.Read("");
+    
+    //Ability to Output Majority of values
+    db.AddParameter("userid", 5);
+    db.EndParameter("username", "DbParser");
+    ...
+    dB.AddNewReturnGuid("accountusers", "Inserted.UserTokenGuid");
+    
+    //InsertUpdate will Update if the where condition is met, else it will insert. Can also output values.
+    dB.InsertUpdate("accountusers", "UserId = 5", "Inserted.UserId");
